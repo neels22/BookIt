@@ -132,6 +132,9 @@ export default function AdminDashboard() {
           <Link href="/admin/restaurants" className="flex items-center px-6 py-4 hover:bg-gray-800">
             Restaurants
           </Link>
+          <Link href="/admin/remove" className="flex items-center px-6 py-4  hover:bg-gray-800">
+            Delete Restaurant
+          </Link>
         </nav>
       </div>
 

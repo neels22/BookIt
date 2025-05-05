@@ -115,6 +115,9 @@ export default function AdminRestaurants() {
           <Link href="/admin/restaurants" className="flex items-center px-6 py-4 bg-[#b8a8a8] text-black">
             Restaurants
           </Link>
+          <Link href="/admin/remove" className="flex items-center px-6 py-4  hover:bg-gray-800">
+            Delete Restaurant
+          </Link>
         </nav>
       </div>
 
