@@ -90,7 +90,7 @@ export default function SearchPage() {
 
   return (
     <div className="flex min-h-screen">
-      {/* Left Sidebar - Filters */}
+      {/* Left Sidebar - Filters
       <div className="w-64 p-4 border-r">
         <div className="mb-6">
           <select className="w-full p-2 border rounded-md mb-4">
@@ -162,7 +162,7 @@ export default function SearchPage() {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Content - Restaurant List */}
       <div className="flex-1 p-4">
@@ -172,37 +172,35 @@ export default function SearchPage() {
             <p className="text-gray-500">Try adjusting your search criteria</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {restaurants.map((restaurant) => (
               <Link
                 key={restaurant.restaurantId}
                 href={`/restaurant/${restaurant.restaurantId}`}
-                className="block border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+                className="block border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
               >
-                <div className="flex">
-                  <div className="w-48 h-48 relative flex-shrink-0">
-                    <div className="relative h-48 overflow-hidden">
-                      {restaurant.photos && restaurant.photos.length > 0 && restaurant.photos[0] ? (
-                        <Image
-                          src={restaurant.photos[0]}
-                          alt={restaurant.restaurantName}
-                          fill
-                          className="object-cover"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                        </div>
-                      )}
-                    </div>
+                <div className="flex flex-col">
+                  <div className="h-48 relative">
+                    {restaurant.photos && restaurant.photos.length > 0 && restaurant.photos[0] ? (
+                      <Image
+                        src={restaurant.photos[0]}
+                        alt={restaurant.restaurantName}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                    )}
                   </div>
-                  <div className="p-4 flex-1">
-                    <h2 className="text-xl font-semibold mb-2">{restaurant.restaurantName}</h2>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-gray-600">{restaurant.cuisine}</span>
-                      <span className="text-gray-600">
+                  <div className="p-4">
+                    <h2 className="text-xl font-semibold mb-2 line-clamp-1">{restaurant.restaurantName}</h2>
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <span className="text-gray-600 text-sm">{restaurant.cuisine}</span>
+                      <span className="text-gray-600 text-sm">
                         {restaurant.costRating === 1 ? '$' : restaurant.costRating === 2 ? '$$' : '$$$'}
                       </span>
                       <div className="flex items-center">
@@ -215,15 +213,14 @@ export default function SearchPage() {
                           ))}
                         </div>
                         <span className="ml-1 text-sm text-gray-600">
-                          {restaurant.avgRating} ({restaurant.totalReviews} reviews)
+                          {restaurant.avgRating} ({restaurant.totalReviews})
                         </span>
                       </div>
-                      <span className="text-gray-600">{restaurant.bookedToday} booked today</span>
                     </div>
 
                     {restaurant.photos && restaurant.photos.length > 1 && (
                       <div className="flex gap-2 mb-3 overflow-x-auto">
-                        {restaurant.photos.slice(1).map((photo, index) => (
+                        {restaurant.photos.slice(1, 4).map((photo, index) => (
                           <div key={index} className="w-16 h-16 relative flex-shrink-0">
                             {photo ? (
                               <Image
@@ -244,17 +241,22 @@ export default function SearchPage() {
                       </div>
                     )}
 
-                    <div className="mt-4">
+                    <div className="mt-2">
                       <h3 className="text-sm font-medium mb-2">Available Times:</h3>
                       <div className="flex flex-wrap gap-2">
-                        {restaurant.availableTimes.map((time, timeIndex) => (
+                        {restaurant.availableTimes.slice(0, 3).map((time, timeIndex) => (
                           <span
                             key={timeIndex}
-                            className="px-3 py-1 bg-[#8B2615] text-white text-sm rounded-full hover:bg-[#a13425] transition-colors"
+                            className="px-2 py-1 bg-[#8B2615] text-white text-xs rounded-full hover:bg-[#a13425] transition-colors"
                           >
                             {time}
                           </span>
                         ))}
+                        {restaurant.availableTimes.length > 3 && (
+                          <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                            +{restaurant.availableTimes.length - 3} more
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
