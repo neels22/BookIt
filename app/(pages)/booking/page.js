@@ -1,12 +1,30 @@
 "use client"
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Star, Calendar, User, Clock, X, Check } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { BASE_URL } from '@/constants/constants'
 
 export default function BookingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white p-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="animate-pulse">
+            <div className="space-y-4">
+              <h1>Loading booking details...</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    }>
+      <BookingPageContent />
+    </Suspense>
+  )
+}
+
+function BookingPageContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const { user } = useAuth()
